@@ -63,6 +63,8 @@ def main():
         pbar = tqdm(op, leave=False, total=args.iterations)
         for loss in pbar:
             pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
+            with open(os.path.join(args.dlatent_dir, f'{names[0]}.losses.csv'), 'a') as lossf:
+                lossf.write(f'{loss}\n')
         print(' '.join(names), ' loss:', loss)
 
         # Generate images from found dlatents and save them
