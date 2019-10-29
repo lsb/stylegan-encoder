@@ -31,6 +31,7 @@ if __name__ == "__main__":
     for img_name in os.listdir(RAW_IMAGES_DIR):
         raw_img_path = os.path.join(RAW_IMAGES_DIR, img_name)
         for i, face_landmarks in enumerate(landmarks_detector.get_landmarks(raw_img_path), start=1):
+            print(f'aligning {img_name} {i}')
             face_img_name = '%s_%02d.png' % (os.path.splitext(img_name)[0], i)
             aligned_face_path = os.path.join(ALIGNED_IMAGES_DIR, face_img_name)
 
