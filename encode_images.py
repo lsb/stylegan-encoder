@@ -9,6 +9,7 @@ import dnnlib.tflib as tflib
 import config
 from encoder.generator_model import Generator
 from encoder.perceptual_model import PerceptualModel
+import json
 
 URL_FFHQ = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ'  # karras2019stylegan-ffhq-1024x1024.pkl
 
@@ -63,8 +64,11 @@ def main():
         pbar = tqdm(op, leave=False, total=args.iterations)
         for loss in pbar:
             pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
-            with open(os.path.join(args.dlatent_dir, f'{names[0]}.losses.csv'), 'a') as lossf:
-                lossf.write(f'{loss}\n')
+            with open(os.path.join(args.dlatent_dir, f'{names[0]}.losses.csv'), 'a') as loss_file:
+                loss_file.write(f'{loss}\n')
+            with open(os.path.join(args.dlatent_dir, f'{names[0]}.intermediate.npy'), 'a') as intermediate_latent_file:
+                intermediate_latent_file.write(f'{json.dumps(generator.get_dlatents()[0].tolist())}\n')
+
         print(' '.join(names), ' loss:', loss)
 
         # Generate images from found dlatents and save them
